@@ -61,5 +61,32 @@ module.exports = {
             .catch((err) => {
                 res.json({ status: 'error', message: err.message })
             })
+    },
+    deleteUser: async (req, res) => {
+        const { id } = req.params;
+        const user = await Person.findByPk(id)
+            .then((user) => {
+                if (!user) {
+                    res.json({ status: 'error', message: `No user with id ${id}` })
+                    return;
+                }
+                return user;
+            }).then(async (user) => {
+                const deletedUser = await Person.destroy({
+                    where: {
+                        id: user.id,
+                    }
+                })
+                return deletedUser;
+            })
+            .then((data) => {
+                console.log(data);
+                res.json({ status: 'success', data: data })
+            })
+            .catch((err) => {
+                res.json({ status: 'error', message: err.message })
+            })
+
+
     }
 }

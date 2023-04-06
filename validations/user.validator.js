@@ -23,7 +23,7 @@ module.exports = {
     ],
     findById: () => [
         param('id')
-            .notEmpty()
+            // .notEmpty()
             .isInt()
     ],
     updateById: () => [
@@ -52,5 +52,10 @@ module.exports = {
             .notEmpty()
             .isString()
             .isLength({ max: 255 })
+    ],
+    deleteById: () => [
+        param('id')
+           .notEmpty()
+           .isInt()
     ]
 };
