@@ -1,55 +1,158 @@
+const {
+    sendMail
+} = require('../utils/send_mail');
 
-const { Mail } = require('../models');
+const {
+    Mail
+} = require('../models');
 
 module.exports = {
     createMail: async (req, res) => {
 
-        const { name, email, password } = req.body;
+        const {
+            name,
+            email,
+            password
+        } = req.body;
 
-        const data = { name, email, password };
+        const data = {
+            name,
+            email,
+            password
+        };
 
         const NewMail = await Mail.create(data)
 
             .then((newMail) => {
                 console.log(`${newMail} created`);
-                res.json({ status: 'success', data: newMail })
+                res.json({
+                    status: 'success',
+                    data: newMail
+                })
             })
             .catch((err) => {
-                res.json({ status: 'error', data: err.message });
+                res.json({
+                    status: 'error',
+                    data: err.message
+                });
             })
     },
     getMailById: async (req, res) => {
-        const { id } = req.params;
+        const {
+            id
+        } = req.params;
         const mail = await Mail.findByPk(id)
             .then((mail) => {
                 console.log(mail);
-                res.json({ status: 'success', data: mail });
+                res.json({
+                    status: 'success',
+                    data: mail
+                });
             })
             .catch((err) => {
-                res.json({ status: 'error', data: err.message });
+                res.json({
+                    status: 'error',
+                    data: err.message
+                });
             })
     },
     getAllMail: async (req, res) => {
         const mails = await Mail.findAll()
             .then((mails) => {
                 console.log(mails);
-                res.json({ status: 'success', data: mails });
+                res.json({
+                    status: 'success',
+                    data: mails
+                });
             })
             .catch((err) => {
-                res.json({ status: 'error', data: err.message });
+                res.json({
+                    status: 'error',
+                    data: err.message
+                });
             })
     },
     getMailByName: async (req, res) => {
-        const { name } = req.body;
-        const mails = await Mail.findAll({
-            where: { name }
-        })
-            .then((mails) => {
-                console.log(mails);
-                res.json({ status: 'success', data: mails });
+        const {
+            firstName,
+            lastName
+        } = req.body;
+
+        function JoinName(fname, lname) {
+            let fullName = `${fname} ${lname}`;
+            return fullName
+        };
+
+        let fullName = JoinName(firstName, lastName);
+
+        const mail = await Mail.findAll({
+                where: {
+                    name: fullName,
+                }
+            })
+            .then((mail) => {
+                console.log(mail);
+                if (mail.length > 0) {
+                    // res.json({
+                    //     status: 'success',
+                    //     data: mail
+                    // });
+                    res.render('serp', {
+                        status: 'success',
+                        data: mail
+                    });
+                    return;
+                }
+                res.render('serp', {
+                    status: 'error',
+                    data: "Check your spellings otherwise there is absolutely no email with that name, "
+                });
             })
             .catch((err) => {
-                res.json({ status: 'error', data: err.message });
+                res.json({
+                    status: 'error',
+                    data: err.message
+                });
             })
+    },
+    resetPass: (req, res) => {
+        try {
+            const {
+                fullName,
+                email
+            } = req.body;
+
+            let mail = {
+                from: fullName,
+                to: 'mwanyikajohn@outlook.com',
+                subject: 'Email password reset',
+                text: `Hello sir! kindly asking to reset password for ${email}`
+            };
+
+            sendMail(mail)
+            res.json({
+                status: 'success',
+                data: 'success'
+            })
+                // .then((response) => {
+                //     res.json({
+                //         status: 'success',
+                //         data: 'success'
+                //     })
+                // })
+                // .catch((err) => {
+                //     res.json({
+                //         status: 'error',
+                //         data: err.message
+                //     })
+                // });
+
+        } catch (error) {
+            res.json({
+                status: 'error',
+                data: error.message
+            })
+        }
+
     }
 }
