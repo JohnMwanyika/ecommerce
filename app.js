@@ -9,6 +9,11 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const mailRouter = require('./routes/mail.route');
 
+// ########### sesion #########
+// const session = require('express-session');
+// // require session store
+// const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 
 var app = express();
 
