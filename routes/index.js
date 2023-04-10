@@ -5,7 +5,8 @@ const person = require('./person.router.');
 router.use('/person', person);
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('home', { title: 'Express' });
+  // res.render('index', { title: 'Express' });
 });
 
 
