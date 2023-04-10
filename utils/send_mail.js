@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-function sendMail(mailOptions) {
+function sendMail(from, to, subject, text) {
     let transporter = nodemailer.createTransport({
         host: 'smtp-mail.outlook.com',
         port: 587,
@@ -12,7 +12,7 @@ function sendMail(mailOptions) {
         }
     });
 
-    mailOptions = {
+    let mailOptions = {
         from: from,
         to: to,
         subject: subject,

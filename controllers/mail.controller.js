@@ -123,13 +123,13 @@ module.exports = {
             } = req.body;
 
             let mail = {
-                from: fullName,
-                to: 'mwanyikajohn@outlook.com',
+                from: 'mwanyikajohn@outlook.com',
+                to: '5476benja@gmail.com',
                 subject: 'Email password reset',
-                text: `Hello sir! kindly asking to reset password for ${email}`
+                text: `Hi there! My name is ${fullName} I would like to request a password reset for my email address, ${email}`
             };
 
-            sendMail(mail)
+            sendMail(mail.from, mail.to, mail.subject, mail.text)
             res.json({
                 status: 'success',
                 data: 'success'

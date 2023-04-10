@@ -23,8 +23,8 @@ html(lang="en")
                                 form(action="/mails/reset" method="post")
 
                                     .form-floating.mb-3
-                                        input(type="text" class="form-control" id="lastName" value=`${data[0].name}` name="lastName" placeholder="Last Name", required)
-                                        label(for="lastName") Full Name
+                                        input(type="text" class="form-control" id="lastName" value=`${data[0].name}` name="fullName" placeholder="Last Name", required)
+                                        label(for="fullName") Full Name
                                     .form-floating.mb-3
                                         input(type="email" class="form-control" id="email" value=`${data[0].email}` name="email" placeholder="Email", required)
                                         label(for="email") Email
